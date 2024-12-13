@@ -1,4 +1,3 @@
-from sched import scheduler
 import torch
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
@@ -41,8 +40,7 @@ if __name__ == '__main__':
   
   latents = Latents(z).to(device)
   sds_loss = SDSLoss(prompt, device).to(device)
-  optimizer = torch.optim.RAdam(latents.parameters(), lr=0.01)
-  scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+  optimizer = torch.optim.Adam(latents.parameters(), lr=0.01)
 
   # update latents with the prompt
   latents.train()
@@ -56,7 +54,6 @@ if __name__ == '__main__':
     optimizer.zero_grad()
     loss.backward()
     optimizer.step()
-    scheduler.step()
 
     if iteration % save_iterations == 0:
       save_image(iteration, output)

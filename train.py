@@ -48,8 +48,7 @@ def train(train_loader, test_loader):
   device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
   model = VAE().to(device)
   vae_loss = VAELoss().to(device)
-  optimizer = torch.optim.RAdam(model.parameters(), lr=0.01)
-  scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+  optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
   for epoch in range(num_epochs):
     for i, (x, _) in enumerate(train_loader):
@@ -60,7 +59,6 @@ def train(train_loader, test_loader):
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
-      scheduler.step()
 
       if i == 0:
         save_image(epoch, input, output, 'train')
