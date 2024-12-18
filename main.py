@@ -1,3 +1,4 @@
+import os
 import torch
 import torchvision.transforms as transforms
 from torch.utils.data import DataLoader
@@ -11,6 +12,8 @@ from latents import Latents
 from loss import SDSLoss
 
 def save_image(iteration, output):
+  os.makedirs('output', exist_ok=True)
+
   np_output = output.to('cpu').detach().numpy().copy()
   img_output = np.reshape(np_output[0], (28, 28))
 
